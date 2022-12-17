@@ -18,11 +18,10 @@ struct node
     struct node* prev;
     struct node* next;
 };
-
 struct node* headc = NULL, * newnode, * tailc = NULL;
 struct node* heada = NULL, * taila = NULL;
 struct node* head_s;
-
+float membership(float val);
 void adminmenu()
 {
     printf("\n\t\t\t\t\t\t\t1. View total sales\n");
@@ -164,7 +163,6 @@ struct node* totalsales(int data, int quantity)
     newnode->prev = NULL;
 
     struct node* temp = head_s;
-
     if (temp == NULL)
         head_s = newnode;
     else
@@ -277,13 +275,13 @@ int deletecustomer()
         if (temp->data == num)
         {
 
-            if (temp->quantity == 1 && num1!=0)
+            if (temp->quantity == 1 && num1 != 0)
             {
                 headc = delete(num, headc, tailc);
             }
             else
             {
-                for(int i=0;i<num1;i++)
+                for (int i = 0; i < num1; i++)
                     temp->quantity--;
                 if (temp->quantity < 0)
                     headc = delete(num, headc, tailc);
@@ -298,6 +296,8 @@ int deletecustomer()
 
 void displaybill()
 {
+    int flag;
+    float memberprice = 0;
     displayList(headc);
     struct node* temp = headc;
     float total_price = 0;
@@ -306,9 +306,18 @@ void displaybill()
         total_price += temp->price;
         temp = temp->next;
     }
-
-    printf("\t\t\t\t\t\t\tTotal price: %0.02f\n", total_price);
-
+    printf("\t\t\t\t\t\t\tDo you have a Membership ?\n");
+    printf("\t\t\t\t\t\t\t1.Yes\n\t\t\t\t\t\t\t2.No\n");
+    scanf_s("%d", &flag);
+    if (flag == 1)
+    {
+        memberprice = membership(total_price);
+        if (memberprice == 0.0)
+            return;
+        printf("\t\t\t\t\t\tTotal price for members: %0.02f\n", memberprice);
+    }
+    else
+        printf("\t\t\t\t\t\t\tTotal price: %0.02f\n", total_price);
 }
 
 struct node* deleteList(struct node* head)
@@ -359,9 +368,7 @@ void admin()
             char name[50];
             float price;
             scanf_s("%d", &num);
-
             struct node* temp = heada;
-
             while (temp != NULL)
             {
                 if (temp->data == num)
@@ -372,12 +379,10 @@ void admin()
                 }
                 temp = temp->next;
             }
-
             if (flag == 1)
                 break;
-
             printf("\t\t\t\t\t\t\tEnter food item name: ");
-            scanf_s("%s", &name);
+            scanf("%s", name);
             printf("\t\t\t\t\t\t\tEnter price: ");
             scanf_s("%f", &price);
             heada = createadmin(heada, num, name, price);
@@ -514,4 +519,24 @@ int main()
             break;
         }
     }
+}
+float membership(float val)
+{
+    int member_number = 0;
+    float discuont = 0;
+    if (val == 0)
+    {
+        printf("Please order to get member discount Thank You");
+        return 0.0;
+    }
+    printf("\t\t\t\t\t\t***Please Enter your Member number:\n");
+    scanf_s("%d", &member_number);
+    if (member_number == 0)
+    {
+        printf("Sorry Therse is no member number in the system\n");
+        return 0;
+    }
+    printf("\t\t\t\tGreat to see you again Here a - 10 procent discount.\n");
+    discuont = (val * 10) / 100;
+    return (val - discuont);
 }
