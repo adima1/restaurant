@@ -432,8 +432,18 @@ void customer()
         case 1:
             displayList(heada);
             printf("\n\t\t\t\t\t\tEnter number corresponding to the item you want to order: ");
-            int n;
+               int n;
+            int x;
             scanf_s("%d", &n);
+            if (n > 5 && n < 13)
+                printf("do you want ice?yes-1no-2");
+            scanf("%d", &x);
+            if (x == 1)
+                headc = createcustomer(headc, 13, 1);
+            if (x == 2)
+                printf("no ice add");
+
+           
             printf("\t\t\t\t\t\tEnter quantity: ");
             int quantity;
             scanf_s("%d", &quantity);
@@ -490,14 +500,14 @@ int main()
     heada = createadmin(heada, 3, "Manchurian Noodles", 150);
     heada = createadmin(heada, 4, "Fried Rice", 180);
     heada = createadmin(heada, 5, "Hakka Noodles", 80);
-        heada = createadmin(heada, 6, "coca-cola", 10);
+    heada = createadmin(heada, 6, "coca-cola", 10);
     heada = createadmin(heada, 7, "sprite", 10);
     heada = createadmin(heada, 8, "ice tea", 10);
     heada = createadmin(heada, 9, "fanta", 10);
     heada = createadmin(heada, 10, "mango juice", 10);
     heada = createadmin(heada, 11, "orange juice", 10);
     heada = createadmin(heada, 12, "water", 8);
-
+    heada = createadmin(heada, 13, "ice", 1);
     while (1)
     {
         mainnenu();
