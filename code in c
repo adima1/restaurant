@@ -436,12 +436,14 @@ void customer()
             int x;
             scanf_s("%d", &n);
             if (n > 5 && n < 13)
-                printf("do you want ice?yes-1no-2");
+            {
+                printf("\t\t\t\t\t\t\tdo you want ice?yes-1no-2");
             scanf("%d", &x);
             if (x == 1)
                 headc = createcustomer(headc, 13, 1);
             if (x == 2)
                 printf("no ice add");
+                }
 
            
             printf("\t\t\t\t\t\tEnter quantity: ");
