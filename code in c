@@ -490,6 +490,13 @@ int main()
     heada = createadmin(heada, 3, "Manchurian Noodles", 150);
     heada = createadmin(heada, 4, "Fried Rice", 180);
     heada = createadmin(heada, 5, "Hakka Noodles", 80);
+        heada = createadmin(heada, 6, "coca-cola", 10);
+    heada = createadmin(heada, 7, "sprite", 10);
+    heada = createadmin(heada, 8, "ice tea", 10);
+    heada = createadmin(heada, 9, "fanta", 10);
+    heada = createadmin(heada, 10, "mango juice", 10);
+    heada = createadmin(heada, 11, "orange juice", 10);
+    heada = createadmin(heada, 12, "water", 8);
 
     while (1)
     {
