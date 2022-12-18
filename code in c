@@ -9,6 +9,8 @@ This code is written by:
 #include<stdlib.h>
 #include<string.h>
 
+float giftfunction(float total_price);
+
 struct node
 {
     char foodname[50];
@@ -306,6 +308,7 @@ void displaybill()
         total_price += temp->price;
         temp = temp->next;
     }
+    total_price= giftfunction(total_price); 
     printf("\t\t\t\t\t\t\tDo you have a Membership ?\n");
     printf("\t\t\t\t\t\t\t1.Yes\n\t\t\t\t\t\t\t2.No\n");
     scanf_s("%d", &flag);
@@ -319,6 +322,107 @@ void displaybill()
     else
         printf("\t\t\t\t\t\t\tTotal price: %0.02f\n", total_price);
 }
+
+
+struct node* createcustomer1(struct node* head, int data, float quantity)
+{
+    newnode = (struct node*)malloc(sizeof(struct node));
+
+    struct node* temp1 = heada;
+    int flag = 0;
+    while (temp1 != NULL)
+    {
+        if (temp1->data == data)
+        {
+            flag = 1;
+            break;
+        }
+        temp1 = temp1->next;
+    }
+
+    if (flag == 1)
+    {
+        newnode->data = data;
+        newnode->price = quantity * temp1->price;
+        newnode->quantity = quantity * 2;
+        strcpy(newnode->foodname, temp1->foodname);
+        newnode->next = NULL;
+        newnode->prev = NULL;
+
+        struct node* temp = head;
+
+        if (temp == NULL)
+            headc = tailc = newnode;
+        else
+        {
+            while (temp->next != NULL)
+                temp = temp->next;
+
+            temp->next = newnode;
+            newnode->prev = tailc;
+            tailc = newnode;
+        }
+    }
+    else
+    {
+        printf("\n\t\t\t\t\t\t\tThis item is not present in the menu!\n");
+    }
+    return headc;
+}
+
+
+float giftfunction(float total_price)
+{
+    int num;
+    if (total_price >= 300)
+    {
+        printf("\t\t\t\t\t\tYou earned one of the dishes for only 50 percent !!\n\t\t\t\t\t\tDo you want it?\n\n");
+        printf("\t\t\t\t\t\tEnter your choice - press 1 or 2:\n ");
+        printf("\t\t\t\t\t\t\t\t1- YES\n\t\t\t\t\t\t\t\t2- NO\n\t\t\t\t\t\t\t\t");
+        scanf("%d", &num);
+        while (num != 1 && num != 2)
+        {
+            printf("\t\t\t\t\t\t\tEnter your choice again\n\t\t\t\t\t\t\t\t  ");
+            scanf("%d", &num);
+        }
+        if (num == 1)
+        {
+            char str[] = "YES";
+            printf("\t\t\t\t\t\t\t Your choice is- %s\n", str);
+            printf("\t\t\t\t\t\t\t Enter your choice\n");
+            displayList(heada);
+            printf("\n\t\t\t\t\t\tEnter number corresponding to the item you want to order: ");
+            int n;
+            scanf("%d", &n);
+            float quantity = 0.50;
+            headc = createcustomer1(headc, n, quantity);
+            struct node* temp = headc;
+            float  price_after_sale = 0;
+            while (temp != NULL)
+            {
+                price_after_sale += temp->price;
+                temp = temp->next;
+            }
+
+            printf("\n\t\t\t\t\t\tYour order is:\n ");
+            displayList(headc);
+
+            price_after_sale = (price_after_sale - total_price);
+            printf("\t\t\t\t\t\t\tTotal price with your gift : % 0.02f\n\n", total_price + price_after_sale);
+            printf("\t\t\t\t\t\t\t  ENJOY YOUR MEAL!!!\n");
+            return total_price + price_after_sale;
+        }
+        else if (num == 2)
+        {
+            char str[] = "NO";
+            printf("\t\t\t\t\t\t\t  Your choice is %s\n\n", str);
+            printf("\t\t\t\t\t\t\tTotal price : % 0.02f\n", total_price);
+            printf("\t\t\t\t\t\t\t  ENJOY YOUR MEAL!!!\n");
+            return total_price;
+        }
+    }
+}
+
 
 struct node* deleteList(struct node* head)
 {
@@ -465,9 +569,9 @@ void customer()
                 printf("\n\t\t\t\t\t\tFood item with given serial number doesn't exist!!\n");
             break;
         case 4:
-            calculatetotsales();
             printf("\n\t\t\t\t\t\t\t  ### Final Bill ###\n");
             displaybill();
+            calculatetotsales();
             headc = deleteList(headc);
             printf("\n\t\t\t\t\t\tPress any key to return to main menu:\n\t\t\t\t\t\t");
             fflush(stdin);
