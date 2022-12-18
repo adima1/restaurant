@@ -1,9 +1,4 @@
-/*
-This code is written by:
-1. 19BCE237 - Sakshi Sanghavi
-2. 19BCE238 - Harshil Sanghvi
-3. 19BCE245 - Aayush Shah
-*/
+
 #define _CRT_SECURE_NO_WARNINGS
 #include<stdio.h>
 #include<stdlib.h>
@@ -308,7 +303,7 @@ void displaybill()
         total_price += temp->price;
         temp = temp->next;
     }
-    total_price= giftfunction(total_price); 
+    total_price = giftfunction(total_price);
     printf("\t\t\t\t\t\t\tDo you have a Membership ?\n");
     printf("\t\t\t\t\t\t\t1.Yes\n\t\t\t\t\t\t\t2.No\n");
     scanf_s("%d", &flag);
@@ -536,24 +531,35 @@ void customer()
         case 1:
             displayList(heada);
             printf("\n\t\t\t\t\t\tEnter number corresponding to the item you want to order: ");
-               int n;
+            int n;
             int x;
             scanf_s("%d", &n);
             if (n > 5 && n < 13)
             {
                 printf("\t\t\t\t\t\t\tdo you want ice?yes-1no-2");
-            scanf("%d", &x);
-            if (x == 1)
-                headc = createcustomer(headc, 13, 1);
-            if (x == 2)
-                printf("no ice add");
-                }
+                scanf("%d", &x);
+                if (x == 1)
+                    headc = createcustomer(headc, 13, 1);
+                if (x == 2)
+                    printf("no ice add");
+            }
 
-           
+
             printf("\t\t\t\t\t\tEnter quantity: ");
             int quantity;
             scanf_s("%d", &quantity);
             headc = createcustomer(headc, n, quantity);
+            if (quantity >= 5&&n>=1&&n<6)
+            {
+                printf("\t\t\t\t\t\tIf you want you can get a free souffle because you took more than five servings\n");
+                printf("\t\t\t\t\t\tfor yes :1 else :2\n");
+                int y;
+                scanf_s("%d", &y);
+                if (y == 1)
+                {
+                    headc = createcustomer(headc, 14, 0);
+                }
+            }
             break;
         case 2:
             printf("\n\t\t\t\t\t\t\t  ### List of ordered items ###\n");
@@ -614,6 +620,7 @@ int main()
     heada = createadmin(heada, 11, "orange juice", 10);
     heada = createadmin(heada, 12, "water", 8);
     heada = createadmin(heada, 13, "ice", 1);
+    heada = createadmin(heada, 14, "suflae", 25);
     while (1)
     {
         mainnenu();
