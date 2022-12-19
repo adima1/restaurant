@@ -1,11 +1,7 @@
-
 #define _CRT_SECURE_NO_WARNINGS
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
-
-float giftfunction(float total_price);
-
 struct node
 {
     char foodname[50];
@@ -19,13 +15,17 @@ struct node* headc = NULL, * newnode, * tailc = NULL;
 struct node* heada = NULL, * taila = NULL;
 struct node* head_s;
 float membership(float val);
+int add_member();
+float giftfunction(float total_price);
+int check_if_member(int mnumber);
 void adminmenu()
 {
     printf("\n\t\t\t\t\t\t\t1. View total sales\n");
     printf("\t\t\t\t\t\t\t2. Add new items in the order menu\n");
     printf("\t\t\t\t\t\t\t3. Delete items from the order menu\n");
     printf("\t\t\t\t\t\t\t4. Display order menu\n");
-    printf("\t\t\t\t\t\t\t5. Back To Main Menu \n\n");
+    printf("\t\t\t\t\t\t\t5. Add Memebership \n\n");
+    printf("\t\t\t\t\t\t\t6. Back To Main Menu \n\n");
     printf("\t\t\t\t\t\t\t   Enter Your Choice --->");
 }
 
@@ -452,7 +452,7 @@ void admin()
         int opt;
         scanf_s("%d", &opt);
 
-        if (opt == 5)
+        if (opt == 6)
             break;
 
         switch (opt)
@@ -501,7 +501,9 @@ void admin()
             printf("\n\t\t\t\t\t\t\t   ### Order menu ###\n");
             displayList(heada);
             break;
-
+        case 5:
+            add_member();
+            break;
         default:
             printf("\n\t\t\t\t\t\tWrong Input !! PLease choose valid option\n");
             break;
@@ -549,7 +551,7 @@ void customer()
             int quantity;
             scanf_s("%d", &quantity);
             headc = createcustomer(headc, n, quantity);
-            if (quantity >= 5&&n>=1&&n<6)
+            if (quantity >= 5 && n >= 1 && n < 6)
             {
                 printf("\t\t\t\t\t\tIf you want you can get a free souffle because you took more than five servings\n");
                 printf("\t\t\t\t\t\tfor yes :1 else :2\n");
@@ -661,12 +663,48 @@ float membership(float val)
     }
     printf("\t\t\t\t\t\t***Please Enter your Member number:\n");
     scanf_s("%d", &member_number);
-    if (member_number == 0)
+    if (member_number == 0 || check_if_member(member_number) != 1)
     {
         printf("Sorry Therse is no member number in the system\n");
         return 0;
     }
-    printf("\t\t\t\tGreat to see you again Here a - 10 procent discount.\n");
+    printf("\t\t\t\tGreat to see you again Here !\n\t\t\t\t 10 procent discount added to your bill\n");
     discuont = (val * 10) / 100;
     return (val - discuont);
+}
+int check_if_member(int mnumber)
+{
+    int temp = 0;
+    FILE* p = NULL;
+    p = fopen("member.txt", "r");
+    if (!p)
+    {
+        printf("\t\t\t\t\t***Erorr try agian***\n");
+        return 0;
+    }
+    while (!feof(p))
+    {
+        fscanf(p, "%d", &temp);
+        if (temp == mnumber)
+            return 1;
+    }
+    fclose(p);
+    return 0;
+}
+int add_member()
+{
+    int member_num = NULL;
+    printf("Enter Member number:\n");
+    scanf_s("%d", &member_num);
+    FILE* p = NULL;
+    p = fopen("member.txt", "a");
+    if (!p)
+    {
+        printf("\t\t\t\t\t***Erorr try agian***\n");
+        return 0;
+    }
+    fprintf(p, "%d", member_num);
+    fprintf(p, "\n");
+    fclose(p);
+    return 1;
 }
