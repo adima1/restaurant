@@ -257,6 +257,18 @@ int deleteadmin()
     return 0;
 }
 
+int getprice(int num)
+{
+    struct node* temp1 = heada;
+    while (temp1)
+    {
+        if (temp1->data == num)
+        {
+            return temp1->price;
+        }
+        temp1 = temp1->next;
+    }
+}
 int deletecustomer()
 {
     printf("\n\t\t\t\t\tEnter serial no. of the food item which is to be deleted: ");
@@ -278,8 +290,9 @@ int deletecustomer()
             }
             else
             {
-                for (int i = 0; i < num1; i++)
-                    temp->quantity--;
+
+                temp->quantity -= num1;
+                temp->price = temp->price - (num1 * getprice(num));
                 if (temp->quantity < 0)
                     headc = delete(num, headc, tailc);
             }
@@ -290,6 +303,7 @@ int deletecustomer()
 
     return 0;
 }
+
 
 void displaybill()
 {
